@@ -29,8 +29,12 @@ def help():
 def post(url=''):
     data = ''.join(sys.stdin.readlines())
     files = {'file': ('txt', bz2.compress(data) )}
-    r = requests.post(API_URL+url, files=files, timeout=300)
-    print HOST_HTTP+"/"+r.text
+    try:
+        r = requests.post(API_URL+url, files=files, timeout=300)
+    except Exception,e:
+        print 'can not connect server'
+    else:
+        print HOST_HTTP+"/"+r.text
 
 def main():
     argv = sys.argv
@@ -42,9 +46,12 @@ def main():
         url = argv[1]
         if url.startswith(HOST_HTTP):
             url = url[len(HOST_HTTP)+1:] 
-            print 2222222222, API_URL+url
-            r = requests.get(API_URL+url, timeout=300) 
-            print r.text
+            try:
+                r = requests.get(API_URL+url, timeout=300) 
+            except Exception,e:
+                print 'can not connect server'
+            else:
+                print r.text
             return
         else:
             url = argv[1].lstrip("/")

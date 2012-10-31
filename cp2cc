@@ -18,12 +18,12 @@ def help():
     print """
 1.Paste file to cp2cc
   hi@Mars ~$ cp2cc < foo.txt  
-  http://42qu.cc/txt/xa47qt471
+  http://mydomain/txt/xa47qt471
 2.Custom url 
   hi@Mars ~$ cp2cc hi < foo.txt
-  http://42qu.cc/hi
+  http://mydomain/hi
 3.Save web page to local file
-  hi@Mars ~$ cp2cc  http://42qu.cc/txt/xa47qt471  >  foo.txt
+  hi@Mars ~$ cp2cc  http://mydomain/txt/xa47qt471  >  foo.txt
     """
 
 def post(url=''):

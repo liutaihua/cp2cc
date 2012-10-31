@@ -17,7 +17,7 @@ API_URL = '%s/txt/'%HOST_HTTP
 def help():
     print """
 1.Paste file to cp2cc
-  hi@Mars ~$ 42cc < foo.txt  
+  hi@Mars ~$ cp2cc < foo.txt  
   http://42qu.cc/txt/xa47qt471
 2.Custom url 
   hi@Mars ~$ cp2cc hi < foo.txt

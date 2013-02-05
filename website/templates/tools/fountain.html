@@ -1,0 +1,27 @@
+
+{% extends "../base.html" %}
+
+{% block head %}
+
+{% end %}
+
+{% block body %}
+<h1>许愿池类别配置</h1>
+
+{% for wish_type, item_list in output.items() %}
+ <p> {{ wish_type }}: {{ item_list }} </p>
+{% end %}
+
+<form method="POST">
+  {% raw xsrf_form_html() %}
+  <p><input type="text" name="wish_type"></input></p>
+  <p><input type="text" name="item_list"></input></p>
+  <p><input type="submit" value="update"></input></p>
+</form>
+
+
+<hr>
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

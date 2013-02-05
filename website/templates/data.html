@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+{% end %}
+
+
+{% block body %}
+
+<form method="POST" action="/couchbase_data/get">
+  <input type="text" name="uid" value={% if uid %}{{uid}}{% end %}></input>
+  <select name="key">
+    <option value="profile">个人信息</option>
+    <option value="equipment">装备</option>
+    <option value="package">背包</option>
+    <option value="task">任务</option>
+    <option value="achive">成就</option>
+    <option value="feed">feed</option>
+    <option value="position">位置</option>
+	<option value="quest">quest</option>
+  </select>
+  <input type="submit" value="查询"></input>
+</form>
+
+<form method="POST" action="/couchbase_data/get">
+  <input type="text" name="rawkey"></input>
+  <input type="submit" value="key查询"></input>
+</form>
+
+
+{% if type(data) is dict %}
+  {% for k, v in data.items() %}
+     <p>{{ k }} : {{ v }} </p>
+  {% end %}
+{% else %}
+  {{ data }}
+{% end %}
+
+
+<p>设置属性：</p>
+
+<form action="/couchbase_data/set" method="POST">
+   <p>userid: <input type="text" name="userid"></input>
+   <select name="attr">
+     <option value="level">level</option>
+     <option value="token">token</option>
+     <option value="gold">gold</option>
+     <option value="pets">pets</option>
+     <option value="finished_task">task progress</option>
+   </select>
+   value: <input type="text" name="value"></input>
+   <input type="submit" value="set"></input></p>
+</form>
+
+
+
+
+<p>--------------------------------------------------------------------------------</p>
+<p>
+添加任务<form action="/quest/add_quest" method="post" accept-charset="utf-8">
+	<p>userid:<input type="text" name="userid" value="" id="userid"></p>
+	<p>quest_name:<input type="text" name="quest_name" value="" id="quest_name"></p>
+	<p><input type="submit" value="添加任务 &rarr;"></p>
+</form>
+</p>
+
+<p>
+修改任务变量 <form action="/quest/update_quest" method="post" accept-charset="utf-8">
+	<p>userid:<input type="text" name="userid" value="" id="userid"></p>
+	<p>quest_name:<input type="text" name="quest_name" value="" id="quest_name"></p>
+	<p>variables:<input type="text" name="variables" value="" id="variables"></p>
+	<p>value:<input type="text" name="value" value="" id="value"></p>
+	<p><input type="submit" value="修改 &rarr;"></p>
+</form>	
+</p>
+
+改任务值<form action="/quest/mod_quest" method="post" accept-charset="utf-8">
+        <p>userid:<input type="text" name="userid" value="" id="userid"></p>
+	<p>value:<textarea name="quest_value"></textarea></p>
+        <p><input type="submit" value="改任务值 &rarr;"></p>
+</form>
+
+
+<p>--------------------------------------------------------------------------------</p>
+
+
+
+
+
+
+
+鉴定装备模拟器
+<form action="/identify/simulate" method="POST">
+<p>装备:
+<select name="equipment_id">
+  {% for k, v in el %}
+  <option value={{ k }} {% if choose_equipment_id==k %} selected {% end %}> {{ v['name'] }} </option>
+  {% end %}
+</select></p>
+<p>等级:
+<select name="level">
+  {% for l in level_list %}
+  <option value={{ l }} {% if str(choose_level)==str(l) %} selected {% end %}> {{ l }} </option>
+  {% end %}
+</select>
+</p>
+<p>掉落怪:<select name="dropper_class"><option value="0" {% if choose_dropper_class=="0" %} selected {% end %}>普通怪</option><option value="5" {% if choose_dropper_class=="5" %} selected {% end %}>精英怪</option><option value="9" {% if choose_dropper_class=="9" %} selected {% end %}>boss</option></select></p>
+<p><input type="submit" value="生成"></input></p></p>
+</form>
+
+
+{% if identify_result %}
+  {% for k, v in identify_result.items() %}
+   {% if v != 0 %}
+    <p>{{k}}: {{v}}</p>
+   {% end %}
+  {% end %}
+{% end %}
+
+
+<p> -------------------------------- </p>
+副本测试
+
+<form action="/scene/set_debug_pos" method="post" accept-charset="utf-8">
+	<p>userid <input type="text" value="" name="userid"></p>
+	<p>脚本 <input type="text" value="publicmine" name="ruler"></p>
+	<p>
+		<select name="mapname" id="mapname" onchange="" size="1">
+			<option value="city1">city1</option>
+			<option value="city2">city2</option>
+			<option value="city3">city3</option>
+			<option value="city4">city4</option>
+			<option value="huoshan1">huoshan1</option>
+			<option value="huoshan2">huoshan2</option>
+			<option value="dilao1">dilao1</option>
+			<option value="dilao2">dilao2</option>
+			<option value="dilao3">dilao3</option>
+			<option value="dilao4">dilao4</option>
+			<option value="dilao5">dilao5</option>
+			<option value="dilao6">dilao6</option>
+			<option value="shamo1">shamo1</option>
+			<option value="shamo2">shamo2</option>
+			<option value="shamo3">shamo3</option>
+			<option value="shamo4">shamo4</option>
+			<option value="shamo5">shamo5</option>
+			<option value="shamo6">shamo6</option>
+		</select>
+	</p>
+	<p><input type="submit" value="Continue &rarr;"></p>
+</form>
+
+{% end %}

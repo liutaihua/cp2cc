@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+/* Init DataTables */
+
+var oTable_data = $('#myTable_data').dataTable();
+
+/* Apply the jEditable handlers to the table */
+$('td', oTable_data.fnGetNodes()).editable( '/player', {
+    submit:'OK',
+    indicator:'saving...',
+    event:'click',
+    cancel:'cancel',
+    callback:function(sValue, y){
+       oTable_data.fnUpdate( sValue, aPos[0], aPos[1] );
+    },
+    submitdata:function(){
+        var res = {
+        //_xsrf: getCookie("_xsrf"),
+        row: oTable_data.fnGetPosition( this )[0],
+        column: oTable_data.fnGetPosition( this )[1]
+       };
+       res['_xsrf'] = getCookie("_xsrf");
+       return res;
+    },
+} );
+});
+</script>
+{% end %}
+
+
+{% block body %}
+<div class="paginator">
+<p><a href="/account/{{prev}}">&lt;前页</a>
+{{ cur_page }}
+<a href="/account/{{next}}">后页&gt;</a></p>
+</div>
+
+<table border="1" class="tablesorter" id="myTable_data">
+<thead>
+<tr>
+  <th> userid </th>
+  <th> last_login </th>
+  <th> total_consume </th>
+  <th> total_charge </th>
+  <th> register_time </th>
+</tr>
+</thead>
+<tbody>
+{% for row in data %}
+  <tr id="{{ row.userid }}">
+      <td> {{ row.userid }} </td>
+      <td> {{ row.last_login }} </td>
+      <td> {{ row.total_consume }} </td>
+      <td> {{ row.total_charge }} </td>
+      <td> {{ row.register_time }} </td>
+  </tr>
+{% end %}
+</tbody>
+</table>
+
+
+</table>
+<div class="paginator">
+<p><a href="/account/{{prev}}">&lt;前页</a>
+{{ cur_page }}
+<a href="/account/{{next}}">后页&gt;</a></p>
+</div>
+
+{% end %}

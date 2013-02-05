@@ -1,0 +1,96 @@
+{% extends "../backup_base.html" %}
+
+{% block head %}
+<title="地图脚本配置">
+  <link rel="stylesheet" type="text/css" media="screen,print" href="/static/css/style_1.css" />
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+   $('#pretty_code').show();
+   $('#edit_code').hide();
+});
+
+
+function edit()
+{
+$('#pretty_code').hide();
+$('#edit_code').show();
+}
+</script>
+{% end %}
+{% block body %}<h1>地图配置</h1>
+
+任务条件：
+{%raw task_info %}
+
+<form action="/map_script/new" method="POST">
+<select name="map_type">
+   <option value="mining">采矿类</option>
+   <option value="monster">杀怪类</option>
+   <option value="boss">boss类</option>
+   <option value="search">搜寻类</option>
+   <option value="gold_monster">精英怪类</option>
+<input type="text" name="map_name"></input>
+<input type="submit" value="新建"></input>
+</form>
+<p></p>
+
+<form action='/map_script/' method="GET">
+<select name='script'>
+	{% for s in script_list %}
+		<option {%if script == s%}selected {% end %}value={{ s }}> {{ s }} </option>
+	{% end %}
+</select>
+<input type="submit" value="载入"></input>
+</form>
+
+<div id="pretty_code">
+<p></p>
+{% raw file_content_pretty %}
+<p><input type="button" value="编辑" onclick="edit()"></input></p>
+</div>
+<div id="edit_code">
+<p></p>
+<p></p>
+<form action="/map_script/save" method="POST">
+  <input type="hidden" id="script_name" name="script_name" value="{{ script }}"></input>
+  <textarea name="file_content" value="" cols="130" rows="30">{{ file_content }}</textarea>
+  <p></p>
+  <input type="submit" value="保存"></input>
+</form>
+</div>
+  <p></p>
+<form action="/map_script/restart_all" method="POST">
+  <input type="submit" value="restart all !!!"></input>
+</form>
+
+
+  <p></p>
+{% if script %}
+<form action="/map_script/delete" method="POST">
+  <input type="hidden" id="script_name" name="script" value="{{ script }}"></input>
+  <input type="submit" value="删除此脚本"></input>
+</form>
+<p></p>
+<form action="/map_script/restart_gs" method="POST">
+  <input type="hidden" id="script_name" name="script" value="{{ script }}"></input>
+  <input type="submit" value="restart gs"></input>
+</form>
+<p></p><p></p><p></p><p></p>
+<form action="/map_script/restart_all" method="POST">
+  <input type="submit" value="restart all !!!"></input>
+</form>
+
+
+{% end %}
+
+<p></p>
+{% if res %}
+{% raw res %}
+{% end %}
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

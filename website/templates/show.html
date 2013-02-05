@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title="">
+{% end %}
+
+{% block body %}
+
+
+{% if res %}
+{% for line in res %}
+<p>{{ line }}</p>
+{% end %}
+{% end %}
+
+
+
+{% end %}

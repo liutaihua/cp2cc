@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh_CN" lang="zh_CN">
+  <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="Generator" content="iWeb 3.0.4" />
+    <meta name="iWeb-Build" content="local-build-20110919" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=700" />
+    <style type="text/css">
+	.item-reply { border-bottom:1px dashed #ddd;margin-top:4px; }
+	.recreplylst { padding-bottom:6px; }
+	.recreplylst .simplelst { border-bottom:none; }
+	.last { border:none; }
+    </style>
+    <link rel="stylesheet" type="text/css" media="screen,print" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen,print" href="/static/css/main2.css" />
+    <link rel="stylesheet" type="text/css" media="screen,print" href="/static/css/ops.css" />
+
+    <!--[if lt IE 8]><link rel='stylesheet' type='text/css' media='screen,print' href='/static/css/equipmentIE.css'/><![endif]-->
+    <!--[if gte IE 8]><link rel='stylesheet' type='text/css' media='screen,print' href='Media/IE8.css'/><![endif]-->
+   {% block head %}{% end %}
+  </head>
+  <body>
+  <div class="top-nav">
+  <div class="bd">
+    <div class="top-nav-items">
+      <ul>
+        <li><a href="/">首页</a></li>
+
+        <li><a href="/couchbase_data/">查看couchbase数据</a></li>
+        <li><a href="/scene/get_scene_list">场景</a></li>
+        <li><a href="http://192.168.0.106:9001">监控</a></li>
+        <li><a href="http://192.168.0.106:8090">日志</a></li>
+        <li><a href="http://192.168.0.106:8091">couchbase admin</a></li>
+        <li><a href="http://192.168.0.106:8085">文档</a></li>
+	<li><a href='/onlinemodify/'>在线编辑数据</a></li>
+	<li><a href='/tools/'>策划工具(表格)</a></li>
+	<li><a href='/quest_script/show'>任务脚本</a></li>
+        <li><a href="/map_script/">地图脚本</a></li>
+        <li><a href="http://192.168.0.106">[切换到game]</a></li>
+      </ul>
+     </div>
+    <div class="top-nav-info">
+      <!--a href="/login">登录</a>
+      <a href="/login">{% if current_user %} {{ current_user }} {% else %} no name {% end %}</a>
+      <a href="/logout">退出</a-->
+    </div>
+  </div>
+  </div>
+   <div id="wrapper">
+   <div id="header">
+   </div>
+   <div id="content">
+   {% block body %}{% end %}
+   </div>
+   <div id="footer">
+   this is footer
+   </div>
+   </div>
+  </body>

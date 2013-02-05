@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+/* Init DataTables */
+
+var oTable_data = $('#myTable_data').dataTable();
+
+/* Apply the jEditable handlers to the table */
+$('td', oTable_data.fnGetNodes()).editable( '/player', {
+    submit:'OK',
+    indicator:'saving...',
+    event:'click',
+    cancel:'cancel',
+    callback:function(sValue, y){
+       oTable_data.fnUpdate( sValue, aPos[0], aPos[1] );
+    },
+    submitdata:function(){
+        var res = {
+        //_xsrf: getCookie("_xsrf"),
+        row: oTable_data.fnGetPosition( this )[0],
+        column: oTable_data.fnGetPosition( this )[1]
+       };
+       res['_xsrf'] = getCookie("_xsrf");
+       return res;
+    },
+} );
+});
+</script>
+{% end %}
+
+
+{% block body %}
+<div class="paginator">
+<p><a href="/equipment">&lt;前页</a>
+
+<a href="/equipment">后页&gt;</a></p>
+</div>
+
+<table border="1" class="tablesorter" id="myTable_data">
+<thead>
+<tr>
+    <th>id</th>
+    <th>名称</th>
+    <th>模版id</th>
+    <th>资源</th>
+    <th>装备类型</th>
+    <th>标记</th>
+    <th>等级</th>
+    <th>物攻</th>
+    <th>魔攻</th>
+    <th>神攻</th>
+    <th>物防</th>
+    <th>魔防</th>
+    <th>攻范围</th>
+    <th>增强</th>
+    <th>耐久</th>
+    <th>重量</th>
+    <th>吸魂率</th>
+    <th>配合度</th>
+    <th>特定职业</th>
+    <th>命中率</th>
+    <th>魔抗</th>
+    <th>攻速</th>
+    <th>最大hp</th>
+    <th>最大mp</th>
+    <th>所有者</th>
+    <th>价格</th>
+    <th>价格种类</th>
+</tr>
+</thead>
+<tbody>
+{% for row in data %}
+  <tr id="{{ row.itemid }}">
+    <td>{{ row.itemid }}</td>
+    <td>{{ row.name }}</td>
+    <td>{{ row.templateid }}</td>
+    <td>{{ row.resource }}</td>
+    <td>{{ row.position }}</td>
+    <td>{{ row.mark }}</td>
+    <td>{{ row.grade }}</td>
+    <td>{{ row.physical_attack }}</td>
+    <td>{{ row.magic_attack }}</td>
+    <td>{{ row.holy_attack }}</td>
+    <td>{{ row.physical_defence }}</td>
+    <td>{{ row.magic_defence }}</td>
+    <td>{{ row.attack_range }}</td>
+    <td>{{ row.enhancement }}</td>
+    <td>{{ row.durability }}</td>
+    <td>{{ row.weight }}</td>
+    <td>{{ row.ghost_rate }}</td>
+    <td>{{ row.coordinate }}</td>
+    <td>{{ row.special }}</td>
+    <td>{{ row.hit_rate }}</td>
+    <td>{{ row.magic_resistance }}</td>
+    <td>{{ row.attack_speed }}</td>
+    <td>{{ row.max_hp }}</td>
+    <td>{{ row.max_mp }}</td>
+    <td>{{ row.ownerid }}</td>
+    <td>{{ row.price }}</td>
+    <td>{{ row.price_type }}</td>
+  </tr>
+{% end %}
+</tbody>
+</table>
+
+
+</table>
+<div class="paginator">
+<p><a href="/equipment">&lt;前页</a>
+
+<a href="/equipment">后页&gt;</a></p>
+</div>
+
+{% end %}

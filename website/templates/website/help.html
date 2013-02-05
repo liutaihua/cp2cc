@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/work/cp2cc/README.md.html</title>
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v6">
+<meta name="syntax" content="markdown">
+<meta name="settings" content="use_css">
+<style type="text/css">
+<!--
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Title { color: #c000c0; }
+.Special { color: #c000c0; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Special">#####</span><span class="Title">创意纯属山寨,仅供笑料, 满足偶尔的性欲</span>
+
+在线随手帖的note,方便命令行下获取一些stdout, 记录它于人分享
+
+<span class="Special">####</span><span class="Title"> 安装:</span>
+    python setup.py install
+
+使用cp2cc命令记录到在线笔记后, 会返回一个网址, 即使此次笔记的url, url的第2级是随机生成的.
+<span class="Special">##</span><span class="Title">使用:</span>
+<span class="Special">####</span><span class="Title"> a, 读取文件内容到在线笔记</span>
+    cp2cc &lt; hi.txt
+
+<span class="Special">####</span><span class="Title"> b, 通过管道读取:</span>
+    cat hi.txt|cp2cc
+
+<span class="Special">####</span><span class="Title"> c,手工输入 , 在命令行中输入内容 ; 按 Ctrl + D , 然后回车 , 结束输入</span>
+    cp2cc
+  ctrl + D
+
+<span class="Special">####</span><span class="Title"> d,下载文件</span>
+    cp2cc  <a href="http://url/xx">http://url/xx</a> &gt; 1.txt
+
+<span class="Special">####</span><span class="Title"> e, 如果不想使用随机地址, 则自定义地址:</span>
+    cp2cc  mynote1 &lt; hi.txt
+
+
+<span class="Special">####</span><span class="Title"> 浏览器浏览</span>
+    打开浏览器, 贴入使用cp2cc命令返回的url, 可浏览笔记, 编辑它, 并且会自动保存
+
+</pre>
+</body>
+</html>

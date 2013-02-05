@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+</script>
+{% end %}
+
+{% block body %}
+
+<p><a href="/static/images/menu001.jpg">米粉盖浇饭</a>
+<a href="/static/images/menu002.jpg">营养健康便当</a>
+<a href="/static/images/menu003.jpg">煲仔饭</a>
+<a href="/static/images/menu004.jpg">好东东</a>
+<a href="/static/images/menu007.jpg">疯大姐</a>
+<a href="/static/images/menu005.jpg">日本咖喱</a>
+<a href="/static/images/menu006.jpg">永富祥</a>
+
+<a href="/static/images/menu008.jpg">桂林米粉</a>
+<a href="/static/images/menu009.jpg">米粉和面</a>
+<a href="/static/images/menu010.jpg">旭日小厨</a>
+<a href="/static/images/menu011.jpg">疯大姐煲仔饭</a>
+</p>
+ {% for name, value in card_result.items() %}
+   <p><strong>{{ name }}</strong> <em>({{ value['ip'] }})</em> 点了 {{ value['food'] }}  {% if value['choice'] == True %} <img height="50" src="/static/images/y.png" alt="点饭" border="0" /> 点饭 {% else %} <img height="50" src="/static/images/n.png" alt="点饭" border="0" />{% end %} {{ value['price'] }}元</p>
+ {% end %}
+
+<form action="/order/order" method="POST">
+	叫啥：<input type="text" name="name"></input>
+	吃啥：<input type="text" name="food"></input>
+	价格：<input type="text" name="price"></input>元
+	<input type="submit" value="提交">
+</form>
+
+
+目前总价：{{ total_price }}
+
+<p>
+所有的菜：{% for i in  order_list %}<p> {{ i }}</p> {% end %}
+</p>
+
+
+<form action="/order/start" method="POST">
+	<input type="submit" value="开始抽签">
+</form>
+
+
+
+
+<p>抽签前可以改自己点的东西</p>
+
+<p>点开始抽签后不能再点餐了</p>
+
+<p>送餐地址：万航渡路2453号 周家桥创意园 B栋楼3楼312</p>
+
+<p><a href="/order/order_list">猛击这里看菜单</a></p>
+
+
+{% end %}

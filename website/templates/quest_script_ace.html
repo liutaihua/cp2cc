@@ -1,0 +1,214 @@
+{% extends "backup_base.html" %}
+
+{% block head %}
+<title="任务脚本配置">
+  <link rel="stylesheet" type="text/css" media="screen,print" href="/static/css/perldoc.css" />
+
+<style type="text/css">
+   .flakes_result {
+       color: red;
+   }
+   #editor {
+          position: relative;
+          width: 1000px;
+          height: 600px;
+      }
+</style>
+<script src="/static/ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/keybinding-vim.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/keybinding-emacs.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script src="/static/ace/src/theme-merbivore.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-clouds_midnight.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-clouds.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-cobalt.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-crimson_editor.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-dreamweaver.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-github.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-idle_fingers.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-kr_theme.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-merbivore_soft.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-mono_industrial.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-pastel_on_dark.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-solarized_light.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-textmate.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-tomorrow_night_blue.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-tomorrow_night_bright.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-tomorrow_night_eighties.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-tomorrow.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/ace/src/theme-vibrant_ink.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script src="/static/ace/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+{% end %}
+{% block body %}
+
+<form action='/quest_script/show' method="GET">
+<select name='script'>
+	{% for s in script_list %}
+		<option {%if script == s%}selected {% end %}value={{ s }}> {{ s }} </option>
+	{% end %}
+</select>
+<input type="hidden" name="script_type" value="{{ script_type }}"></input>
+<input type="hidden" name="r" value="{{ timestamp }}"></input>
+<input type="submit" value="载入"></input>
+
+主题：
+<select name="theme" id="theme" OnChange="change_theme()">
+<option value="ace/theme/chrome">chrome</option>
+<option value="ace/theme/clouds">clouds</option>
+<option value="ace/theme/clouds_midnight">clouds_midnight</option>
+<option value="ace/theme/crimson_editor">crimson_editor</option>
+<option value="ace/theme/cobalt">cobalt</option>
+<option value="ace/theme/dreamweaver">dreamweaver</option>
+<option value="ace/theme/eclipse">eclipse</option>
+<option value="ace/theme/github">github</option>
+<option value="ace/theme/idle_fingers">idle_fingers</option>
+<option value="ace/theme/kr_theme">kr_theme</option>
+<option value="ace/theme/merbivore">merbivore</option>
+<option value="ace/theme/merbivore_soft">merbivore_soft</option>
+<option value="ace/theme/mono_industrial">mono_industrial</option>
+<option value="ace/theme/monokai">monokai</option>
+<option value="ace/theme/pastel_on_dark">pastel_on_dark</option>
+<option value="ace/theme/solarized_dark">solarized_dark</option>
+<option value="ace/theme/solarized_light">solarized_light</option>
+<option value="ace/theme/textmate">textmate</option>
+<option value="ace/theme/tomorrow_night_blue">tomorrow_night_blue</option>
+<option value="ace/theme/tomorrow_night_bright">tomorrow_night_bright</option>
+<option value="ace/theme/tomorrow_night_eighties">tomorrow_night_eighties</option>
+<option value="ace/theme/tomorrow_night">tomorrow_night</option>
+<option value="ace/theme/twilight">twilight</option>
+<option value="ace/theme/vibrant_ink">vibrant_ink</option>
+</select>
+
+编辑模式<select name="keybinding" id="keybinding" OnChange="change_keybinding()">
+	<option value="vim">vim</option>
+	<option value="emacs">emacs</option>
+	<option value="default">default</option>
+	</select>
+
+选择dir<select name="dir" id="dir" OnChange="save_dir()">
+	<option value="map_script" {% if script_type == 'map_script' %}selected{% end %}>地图脚本（老的）</option>
+	<option value="quest_script" {% if script_type == 'quest_script' %}selected{% end %}>任务脚本</option>
+	</select>
+
+<div id="editor">some text</div>
+
+<script>
+	var vim = require("ace/keyboard/vim").handler;	
+	var emacs = require("ace/keyboard/emacs").handler;	
+        var editor = ace.edit("editor");
+	var pythonMode = require("ace/mode/python").Mode;
+	
+        editor.getSession().setMode(new pythonMode());
+	editor.setTheme("ace/theme/merbivore");
+	editor.setHighlightActiveLine(true);
+	editor.getSession().setUseSoftTabs(true);
+	editor.getSession().setTabSize(4);    
+        var raw_code = "{% raw file_content %}";
+        raw_code = decodeURIComponent(raw_code);
+	editor.setValue(raw_code);
+        editor.gotoLine(1);
+	editor.commands.addCommand({
+        	name: 'myCommand',
+	        bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+	        exec: function(editor) {
+                   save(script='{{script}}')
+	        }
+	});
+
+	function change_keybinding(){
+		var key_mode = $('#keybinding').val();
+		if (key_mode == 'vim'){
+			editor.setKeyboardHandler(vim)
+		}
+		else if (key_mode == 'emacs'){
+			editor.setKeyboardHandler(emacs)
+		}
+		else if (key_mode == 'default'){
+			editor.setKeyboardHandler(null)
+		}
+	}
+       function change_theme(){
+           var theme_name = $('#theme').val();
+           editor.setTheme(theme_name);
+       }
+
+	function save_dir(){
+	         var script_type = $('#dir').val();
+	         window.location="/quest_script/show?script_type="+script_type;
+	         //$.ajax({
+	         //  type: 'POST',
+	         //  url : '/quest_script/save_dir',
+	         //  async: true,
+	         //  data :({script_type:script_type}),
+	    	 //  dataType:"json",
+	         //  success: function(data){window.location.href='/quest_script/show'},
+	         //  error: function(data){alert(data.responseText)},
+	   //});
+	}
+
+	function save(script){
+          content = editor.getValue();
+          $.ajax({
+            type: 'POST',
+            url : '/quest_script/save',
+            async: true,
+            data :({script_name:script, file_content:content, script_type:"{{script_type}}"}),
+	    	dataType:"json",
+            success: function(data){alert('保存成功')},
+	    error: function(data){alert(data.responseText)},
+        });
+	}
+	
+</script>
+
+</form><input type="button" value="保存" onclick="save(script='{{script}}')">
+<div class="flakes_result">
+警告/错误:
+{% for line_number, line in  flakes_result %}
+   <p> {{ line }}<input type="button" onclick="editor.gotoLine({{line_number}})" value="定位"></input></p>
+{% end %}
+</div>
+</b>
+<a href="/quest_script/validate"> 语 法 检 查 </a>
+<form action="/quest_script/new" method="POST">
+<select name="map_type">
+   <option value="type1">类1</option>
+<input type="text" name="map_name"></input>
+<input type="hidden" name="script_type" value="{{ script_type }}"></input>
+<input type="submit" value="新建"></input>
+
+
+{% if script %}
+<!--p>
+<form action="/quest_script/delete" method="POST">
+  <input type="hidden" id="script_name" name="script" value="{{ script }}"></input>
+  <input type="submit" value="删除"></input>
+</form>
+
+<form action="/quest_script/restart_gs" method="POST">
+  <input type="hidden" id="script_name" name="script" value="{{ script }}"></input>
+  <input type="submit" value="应用"></input>
+</form>
+</p-->
+
+{% end %}
+
+<p></p>
+
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

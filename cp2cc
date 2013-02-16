@@ -9,21 +9,21 @@ import urllib2
 import sys
 import bz2
 from os.path import join
-HOST = '180.153.136.14:8888'
+HOST = 'yyu.me'
 HOST_HTTP = 'http://%s'%HOST
 #API_URL = '%s/:api/txt/'%HOST_HTTP
 API_URL = '%s/txt/'%HOST_HTTP
 
 def help():
     print """
-1.Paste file to cp2cc
-  hi@Mars ~$ cp2cc < foo.txt  
+1.Paste file to yyu
+  hi@Mars ~$ yyu < foo.txt  
   http://mydomain/txt/xa47qt471
 2.Custom url 
-  hi@Mars ~$ cp2cc hi < foo.txt
+  hi@Mars ~$ yyu hi < foo.txt
   http://mydomain/hi
 3.Save web page to local file
-  hi@Mars ~$ cp2cc  http://mydomain/txt/xa47qt471  >  foo.txt
+  hi@Mars ~$ yyu  http://mydomain/txt/xa47qt471  >  foo.txt
     """
 
 def post(url=''):

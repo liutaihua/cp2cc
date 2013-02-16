@@ -7,14 +7,14 @@ except ImportError:
     from setuptools import setup, find_packages
 from distutils.core import setup
 setup(
-      name="cp2cc",
+      name="yyu",
       version="0.10",
       description="My test module",
       author="Liutaihua",
       url="liutaihua.com",
       license="LGPL",
       packages= find_packages(),
-      scripts=["cp2cc"],
+      scripts=["yyu"],
 
       install_requires=[
           'requests',

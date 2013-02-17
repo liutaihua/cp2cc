@@ -1,6 +1,7 @@
 from common.base_httphandler import BaseHandler
 import urllib
 import string
+from base64 import b64encode
 
 import tornado.auth
 from tornado.options import options
@@ -10,7 +11,7 @@ from common.util import get_user_db
 
 HOST = options.HOST
 
-class AuthLoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
+class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
     
     _OPENID_ENDPOINT = "https://www.google.com.hk/accounts/o8/ud"
     _OAUTH_ACCESS_TOKEN_URL = "https://www.google.com.hk/accounts/OAuthGetAccessToken"
@@ -32,8 +33,8 @@ class AuthLoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
         else:
             name = user['name']
             email = user['email']
-            user_id = account_new(name, email)
-            login(self, user_id)
+            userid = account_new(name, email)
+            login(self, userid)
             return self.redirect(referer) if referer else self.redirect('/history')
             #self.redirect('/history')
 
@@ -46,43 +47,45 @@ class AuthLogoutHandler(BaseHandler):
 
 
 import os
-def login(self, user_id):
-    user_id = int(user_id)
-    #session = session_new(user_id)
-    s = self.session[user_id]
+def login(self, userid):
+    userid = int(userid)
+    print self.session
+    s = self.session.get(userid)
     if not s:
         s = os.urandom(12)
-        self.session[user_id] = 111
-    self.set_cookie('S', b64encode(str(id) + "@@@" + s))
+        self.session['userid'] = userid
+    self.session.save()
+    self.set_cookie('userid', b64encode(str(id) + "@@@" + s))
 
 def logout(self):
-    if self.get_current_userid():
-        userid = self.get_current_userid()
-        if userid in self.session:
-            del self.session[userid]
-    self.clear_cookie('S')
+    if self.get_user_id():
+        userid = self.get_user_id()
+        if 'userid' in self.session:
+            del self.session['userid']
+    self.session.save()
+    self.clear_cookie('userid')
 
 
 def account_new(name, email):
     name, email = map(string.strip, (name, email))
-    user_id = user_id_by_email(email)
-    if not user_id:
+    userid = user_id_by_email(email)
+    if not userid:
         #cursor = connection.cursor()
         cursor = get_user_db()
         if email:
             cursor.execute(
                 '''insert into account (name, email) values ('%s','%s')'''%(name, email)
             )   
-        user_id = user_id_by_email(email)
-    return user_id
+        userid = userid_by_email(email)
+    return userid
 
 
 def user_id_by_email(email):
     #cursor = connection.cursor()
     cursor = get_user_db()
-    user_id = cursor.query("select id from account where email='%s'"%email)
-    if user_id:
-        user_id = user_id[0]['id']
+    userid = cursor.query("select id from account where email='%s'"%email)
+    if userid:
+        userid = userid[0]['id']
     else:
-        user_id = 0 
-    return user_id
+        userid = 0 
+    return userid

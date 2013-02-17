@@ -21,7 +21,7 @@ def _get_referer_url(request_handle):
 
 class WeiboLoginCheckHandler(BaseHandler):
     def get(self):
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
         code = self.get_argument('code', None)
         backurl = self.get_cookie('backurl'+str(userid), None)
         if not code:
@@ -39,8 +39,9 @@ class WeiboLoginCheckHandler(BaseHandler):
 
 class SinaOAuthHandler(BaseHandler):
     def get(self):
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
         backurl = self.get_argument('backurl', None)
+        print 2222222222222222, userid
         self.set_cookie('backurl'+str(userid), backurl)
         client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
         url = client.get_authorize_url()
@@ -54,7 +55,7 @@ class AuthLogoutHandler(BaseHandler):
 class WeiboLogOutCheckHandler(BaseHandler):
     def get(self):
         referer = self.request.headers.get('Referer', None)
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
         self.clear_cookie('Weibo'+str(userid))
         return self.redirect(referer) if referer else self.redirect('/')
         #self.finish('ok')

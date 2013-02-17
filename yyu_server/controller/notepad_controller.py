@@ -15,9 +15,10 @@ class MainHandler(BaseHandler):
     def get(self, url):
         '''搞一个判断是否从/web_logincheck过来的http referer, 如果是就传个参数给前端, 前端提示一个微薄认证已成功的淡出提示'''
         referer = self.request.headers.get('Referer', None)
-        userid = self.get_current_userid()
-        LOGIN = True if self.get_current_userid() else ''
+        userid = self.get_user_id()
+        LOGIN = True if self.get_user_id() else ''
         weibo = True if self.get_cookie('Weibo'+str(userid), None) and referer and LOGIN else ''
+        txt = ''
         if url == '':
             self.redirect(url_random())
         else:
@@ -67,7 +68,7 @@ class UpdateContentHandler(BaseHandler):
         pass
 
     def post(self, url):
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
         update_content = urllib2.unquote(self.request.body.split('contents=')[1].split('&')[0])
 #        id = url_new(url)
         txt_save(url, txt=update_content, userid=userid)
@@ -91,7 +92,7 @@ class AddPwdHandler(BaseHandler):
 class UploadWeiboHandler(BaseHandler):
     def get(self, url):
         #return self.redirect('/'+url)
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
         http_client = tornado.httpclient.AsyncHTTPClient()
         access_token = self.get_cookie('Weibo'+str(userid), None)
         if not access_token:
@@ -117,12 +118,10 @@ class DeleteHandler(BaseHandler):
 
 class HistoryHandler(BaseHandler):
     def get(self):
-        userid = self.get_current_userid()
+        userid = self.get_user_id()
+        LOGIN = False
+        url_list = []
         if userid:
             LOGIN = True
             url_list = get_url_list_by_userid(userid)
-            #pretty_url_list = map(lambda x:"http://tt:8888/"+x, url_list)
-        else:
-            LOGIN = False
-            url_list = []
         return self.render('website/history.html', url_list=url_list, href="http://myapp.com/", login=LOGIN)

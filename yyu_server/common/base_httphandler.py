@@ -69,15 +69,12 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.session.get('accountid')
 
     def get_user_id(self):
-        if INTERNAL_IP_PATTERN.match(self.request.remote_ip):
-            userid = self.get_argument('userid', None)
-            if userid:
-                return userid
-        userid = self.session.get('userid') or self.get_argument('userid', None)
-        if not userid:
-            # 这里似乎不应该抛异常
-            return 0
-        return int(userid)
+        #if INTERNAL_IP_PATTERN.match(self.request.remote_ip):
+        #    userid = self.get_argument('userid', None)
+        #    if userid:
+        #        return userid
+        userid = self.session.get('userid')
+        return int(userid) if userid else None
 
     def get_user_image(self):
         return self.session.get('me').profile_image_url
@@ -121,18 +118,8 @@ class BaseHandler(tornado.web.RequestHandler):
             self.post(action)
             return self._json_respond
 
-
-    def finish(self, *argc, **argkw):
-        return super(BaseHandler, self).finish(*argc, **argkw)
-
     def get_argument(self, *argc, **argkw):
         return super(BaseHandler, self).get_argument(*argc, **argkw)
-
-    def get_current_userid(self):
-        if self.get_cookie('S'):
-            userid = base64.b64decode(self.get_cookie('S')).split('@@@')[0]
-            return userid if userid else None
-        else:return None
 
 
 class ReqMixin(object):

@@ -23,7 +23,7 @@ if FLAVOR == 'prod':
 
     define('HOST' ,default= 'yyu.me')
     define('DATABASE_ENGINE' ,default= 'postgres')
-    define('DATABASE_NAME' ,default= 'test')
+    define('DATABASE_NAME' ,default= 'note')
     define('DATABASE_USER' ,default= 'postgres')
     define('DATABASE_PASSWORD' ,default= '')
     define('DATABASE_HOST' ,default= 'localhost')

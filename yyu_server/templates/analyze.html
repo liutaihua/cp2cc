@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function()
+    {
+        $("#myTable_data").tablesorter();
+    }
+);
+</script>
+{% end %}
+
+
+{% block body %}
+<div class="paginator">
+可以点击列名排序
+<table border="1" class="tablesorter" id="myTable_data">
+<thead>
+<tr>
+  <th> uri </th>
+  <th> 访问次数 </th>
+  <th> 平均时间(秒) </th>
+</tr>
+</thead>
+<tbody>
+{% for uri, value in data.items() %}
+  <tr id="{{ uri }}">
+      <td> {{ uri }} </td>
+      <td> {{ value['times'] }} </td>
+      <td> {{ value['average'] }} </td>
+  </tr>
+{% end %}
+</tbody>
+</table>
+
+
+</table>
+
+
+{% end %}

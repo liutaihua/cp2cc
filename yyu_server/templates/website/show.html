@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="A piece of paper in the cloud." />
+    <link rel="shortcut icon" type="image/gif" href="/images/favicon.gif" />
+    <title>歪鱼</title>
+
+    <link rel="shortcut icon" href="/static/assets/ico/favicon.ico">
+    <meta name="description" content="A service by Jacob Bijani." />
+    <link rel="stylesheet" href="/static/css/master.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/print.css" type="text/css" media="print" charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/jquery.jgrowl.css" type="text/css"/>
+
+    <script type="text/javascript" src="/static/js/jquery.js "></script>
+    
+    <script type="text/javascript"> 
+    var jQuery=$; 
+    </script> 
+
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+    	jQuery('a.weibo-window').click(function() {
+    		
+    		// Getting the variable's value from a link 
+    		var loginBox = jQuery(this).attr('href');
+    
+    		//Fade in the Popup and add close button
+    		jQuery(loginBox).fadeIn(300);
+    		
+    		//Set the center alignment padding + border
+    		var popMargTop = (jQuery(loginBox).height() + 24) / 2; 
+    		var popMargLeft = (jQuery(loginBox).width() + 24) / 2; 
+    		
+    		jQuery(loginBox).css({ 
+    			'margin-top' : -popMargTop,
+    			'margin-left' : -popMargLeft
+    		});
+    		
+    		// Add the mask to body
+    		jQuery('body').append('<div id="mask"></div>');
+    		jQuery('#mask').fadeIn(300);
+    		
+    		return false;
+    	});
+    	
+    	// When clicking on the button close or the mask layer the popup closed
+    	jQuery('a.close, #mask').live('click', function() { 
+    	  jQuery('#mask , .login-popup').fadeOut(300 , function() {
+    		jQuery('#mask').remove();  
+    	}); 
+    	return false;
+    	});
+    });
+    </script>
+        
+        <script src="/static/js/prototype.js" type="text/javascript"></script>
+
+
+
+
+        <script src="/static/js/t.js" type="text/javascript"></script>
+        <script type="text/javascript" src="/static/js/application.js"></script>
+        
+    <!-- e:y -->
+    <link href="/static/assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+        <link href="/static/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+
+
+
+<style type="text/css">
+.container {width: 960px; margin: 0 auto; overflow: hidden;}
+
+#content {      float: left; width: 100%;}
+
+.post { margin: 0 auto; padding-bottom: 50px; float: left; width: 960px; }
+
+#mask {
+        display: none;
+        background: #000;
+        position: fixed; left: 0; top: 0;
+        z-index: 10;
+        width: 100%; height: 100%;
+        opacity: 0.8;
+        z-index: 999;
+}
+.login-popup{
+        display:none;
+        background: #333;
+        padding: 10px;
+        border: 2px solid #ddd;
+        float: left;
+        font-size: 1.2em;
+        position: fixed;
+        top: 50%; left: 50%;
+        z-index: 99999;
+        box-shadow: 0px 0px 20px #999;
+        -moz-box-shadow: 0px 0px 20px #999; /* Firefox */
+    -webkit-box-shadow: 0px 0px 20px #999; /* Safari, Chrome */
+        border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari, Chrome */
+}
+
+img.btn_close {
+    float: right;
+    margin: -28px -28px 0 0;
+}
+
+fieldset {
+    border:none;
+}
+</style>
+
+
+
+
+</head>
+<body id="body">
+<!--    <script type="text/javascript" src="/static/js/t2.js"></script> -->
+    
+    <div id="promo">
+    </div>
+    
+    <div class="stack ">
+    <div class="layer_1">
+        <div class="layer_2">
+            <div class="layer_3">
+                                <textarea name="contents" id="contents" class="contents " spellcheck="true">{{ res }}</textarea> 
+                            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="printable_contents" class="contents "></div>
+    
+    <div id="unsaved" style="display:none;"></div>
+    <div id="loading" style="display:none;"></div>
+    
+    <div id="controls">
+                    <span class="bubble_wrapper">
+                        <a href="/{{ url }}">http://180.153.136.14:8888/{{ url }}</a>
+                    </span>
+
+                    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'change_url';"> 
+                    <a href="#" onclick="return false;">change url</a>
+
+                    <div class="bubble" id="bubble_for_change_url" style="display:none;">
+                        <div class="highlight"></div>
+
+                        <div class="message" id="message_for_change_url_unavailable" style="display:none;">
+                            URL is unavailable.
+                        </div>
+
+                        <form action="/change_url/{{ url }}" method="post" id="form_for_set_name" onsubmit="validate_name_exists(); return false;">
+                            <input type="text" class="text_input" name="new_url" id="change_url_input" value={{ url }} />
+                            <input type="submit" class="button" value="save" />
+                        </form>
+
+                        <div class="nipple"></div>
+                    </div>
+                </span>
+                <span class="bubble_wrapper" onclick="just_clicked_bubble = 'share_this';">
+                    <a href="#" onclick="return false;">share this</a>
+                    
+                    <div class="bubble" id="bubble_for_share_this" style="display:none;">
+                        <div class="highlight"></div>
+                        
+                        <input type="text" class="text_input" id="share_this_input" onclick="$('share_this_input').activate();" readonly="true"
+                        value={{ href }} />
+                        <div class="nipple"></div>
+                    </div>
+                </span>
+        <span>
+
+
+
+
+        {% if weibo_login %}
+            <span class="spoiler"><a href='/upload_to_weibo/{{ url }}'> share to 微博</a> </span>
+        {% else %}
+            </li><a href="#login-box" class="weibo-window">share to 微博</a></li>
+        {% end %}
+        </span>
+                        </div>    
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="/history">history</a></li>
+                  <li>
+                      <form action="/delete" id="frm" method="post" style="display: none;">
+                          <input type="text" name="myurl" value={{ url }} />
+                      </form>
+                      <a href="javascript:;" onclick="javascript: document.getElementById('frm') .submit()">delete</a>
+                  </li>
+              <li><a href="https://github.com/liutaihua/cp2cc#%E5%AE%89%E8%A3%85">help</a></li>
+              <li><a href="https://github.com/liutaihua/cp2cc#%E5%AE%89%E8%A3%85">about</a></li>
+                  {% if login %}
+                      <li><a href="/account/logout">logout</a></li>
+                  {% else %}
+                      <li><a href="/account/login">login</a></li>
+                  {% end %}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    
+
+
+        <div id="login-box" class="login-popup">
+           {% if login %}
+               <a href="#" class="close"><img src="/static/images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>
+               <p><a class="forgot" href="/sina_oauth?backurl={{ url }}">未连接到微薄,点击授权</a></p>
+           {% else %}
+               <p><a href='/account/login'>请先登陆您的cp2cc笔记用户</a></p>
+           {% end %}
+       </div>
+
+
+    <script type="text/javascript" src="/static/js/jquery.jgrowl.js"></script>
+    {% if weibo_login %}
+    <div>
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function(){
+        	// This value can be true, false or a function to be used as a callback when the closer is clciked
+        	$.jGrowl.defaults.closer = function() {
+        		console.log("Closing everything!", this);
+        	};
+        	
+        	// A callback for logging notifications.
+        	$.jGrowl.defaults.log = function(e,m,o) {
+        		$('#logs').append("<div><strong>#" + $(e).attr('id') + "</strong> <em>" + (new Date()).getTime() + "</em>: " + m + " (" + o.theme + ")</div>")
+        	}				
+        	
+        	$.jGrowl("微博授权成功, 现在您可以分享您的笔记了.<a href='/sina-logout'>取消授权</a>");
+            });
+        })(jQuery);
+    </script>
+    </div>
+    {% end %}
+
+</body>
+</html>

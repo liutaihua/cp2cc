@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+
+{% block head %}
+<title="材料配方配置">
+{% end %}
+
+{% block body %}<h1>材料配方配置</h1>
+
+<form  enctype="multipart/form-data" action="/tools/prescription" method="post" accept-charset="utf-8">
+    {% raw xsrf_form_html() %}
+    <p>上传prescription_list: <input type="file" name="xls">
+    <input type="submit" value="upload &rarr;"></p>
+</form>
+
+
+{% raw output %}
+<p><a href='/onlinemodify/prescription'>在线编辑</a></p>
+
+<hr>
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

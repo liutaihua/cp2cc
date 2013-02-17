@@ -1,0 +1,84 @@
+{% extends "backup_base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/hera.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   var uri = window.location.host.split(':')[0]  
+   $("#select_host").val(uri);
+   })
+</script>
+{% end %}
+
+
+{% block body %}
+
+
+{% for r in res %}
+<p>  {{ r }} </p>
+{% end %}
+
+
+<form action="/scene/start" method="POST">
+  host:
+   <input type="text" name="host" id="select_host" value=""></input>
+  <!--select name="host" id="select_host">
+          <option value="172.16.8.106">106</option>
+          <option value="172.16.8.210">dev1</option>
+          <option value="172.16.8.211">dev2</option>
+          <option value="172.16.8.212">dev3</option>
+       </select-->
+  map_name: <select name="map_name">
+      <option value="dilao1">dilao1</option>
+      <option value="dilao2">dilao2</option>
+        <option value="city1">city</option>
+        <option value="publicmine1">publicmine1</option>
+        <option value="privatemine1">privatemine1</option>
+        <option value="privatemine2">privatemine2</option>
+        <option value="privatemine3">privatemine3</option>
+        <option value="privatemine4">privatemine4</option>
+        <option value="privatemine5">privatemine5</option>
+        <option value="shamo1">shamo1</option>
+        <option value="shamo2">shamo2</option>
+        <option value="shamo3">shamo3</option>
+      </select>
+	  rule:<select name="rule">
+		  {% for quest in quest_script_list %}
+	          <option value="{{ quest }}">{{ quest }}</option>
+		  {% end %}
+	       </select>
+	  <input type="submit" value="start"></input>
+</form>
+
+<a href="http://172.16.8.106:8882/quest_script/show">脚本编辑</a>
+
+
+{% for k, scene in scene_list.items() %}
+  <p> <input type="button" value="{{ scene }}" onclick="show_detail('{{scene}}')" > </input> <input type="button" value="restart" onclick="restart('{{ k }}', '{{ scene }}')"></input></p>
+{% end %}
+
+
+<p>
+<div id="scene_detail">
+</div>
+</p>
+
+<p>
+<div id="res">
+</div>
+</p>
+
+<p>
+<div id="ps">
+</div>
+</p>
+
+
+<p>
+<div id="scene_player_count">
+</div>
+</p>
+
+{% end %}

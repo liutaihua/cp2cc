@@ -1,0 +1,21 @@
+{% extends "../base.html" %}
+
+{% block head %}
+<title="礼包配置">
+{% end %}
+
+{% block body %}<h1>礼包配置</h1>
+
+<form  enctype="multipart/form-data" action="/tools/package" method="post" accept-charset="utf-8">
+    {% raw xsrf_form_html() %}
+    上传: <input type="file" name="xls">
+    <p><input type="submit" value="upload &rarr;"></p>
+</form>
+{% raw output %}
+<p><a href='/onlinemodify/package'>在线编辑</a></p>
+
+<hr>
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

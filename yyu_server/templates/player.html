@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+/* Init DataTables */
+
+var oTable_data = $('#myTable_data').dataTable();
+
+/* Apply the jEditable handlers to the table */
+$('td', oTable_data.fnGetNodes()).editable( '/player', {
+    submit:'OK',
+    indicator:'saving...',
+    event:'click',
+    cancel:'cancel',
+    callback:function(sValue, y){
+       oTable_data.fnUpdate( sValue, aPos[0], aPos[1] );
+    },
+    submitdata:function(){
+        var res = {
+        //_xsrf: getCookie("_xsrf"),
+        row: oTable_data.fnGetPosition( this )[0],
+        column: oTable_data.fnGetPosition( this )[1]
+       };
+       res['_xsrf'] = getCookie("_xsrf");
+       return res;
+    },
+} );
+});
+</script>
+{% end %}
+
+
+{% block body %}
+<div class="paginator">
+<p><a href="/player/{{prev}}">&lt;前页</a>
+{{ cur_page }}
+<a href="/player/{{next}}">后页&gt;</a></p>
+</div>
+<form action="/player/recharge" method="POST">
+  {% raw xsrf_form_html() %}
+  <p>userid:<input type="text" name="userid"></input></p>
+  <p>value:<input type="text" name="value"></input>
+  <input type="submit" value="充值"></input></p>
+</form>
+<table border="1" class="tablesorter" id="myTable_data">
+<thead>
+<tr>
+  <th> userid </th>
+  <th> title </th>
+  <th> username </th>
+  <th> role </th>
+  <th> gender </th>
+  <th> popularity </th>
+  <th> exp </th>
+  <th> token </th>
+  <th> gold </th>
+  <th> register_time </th>
+</tr>
+</thead>
+<tbody>
+{% for row in data %}
+  <tr id="{{ row.userid }}">
+      <td> {{ row.userid }} </td>
+      <td> {{ row.title }} </td>
+      <td> {{ row.name }} </td>
+      <td> {{ row.role }} </td>
+      <td> {{ row.gender }} </td>
+      <td> {{ row.popularity }} </td>
+      <td> {{ row.exp }} </td>
+      <td> {{ row.token }} </td>
+      <td> {{ row.gold }} </td>
+      <td> {{ row.register_time }} </td>
+  </tr>
+{% end %}
+</tbody>
+</table>
+
+
+</table>
+<div class="paginator">
+<p><a href="/player/{{prev}}">&lt;前页</a>
+{{ cur_page }}
+<a href="/player/{{next}}">后页&gt;</a></p>
+</div>
+
+{% end %}

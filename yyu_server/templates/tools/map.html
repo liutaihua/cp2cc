@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+
+{% block head %}
+<title="地图配置">
+{% end %}
+
+{% block body %}<h1>地图配置</h1>
+
+<p>上传的是python脚本，云盘里的地址是：/程序用策划表格/地图脚本</p>
+<p></p>
+
+<form  enctype="multipart/form-data" action="/tools/upload_map_script" method="post" accept-charset="utf-8">
+    {% raw xsrf_form_html() %}
+    上传: <input type="file" name="script">
+    <p><input type="submit" value="upload &rarr;"></p>
+</form>
+{% raw output %}
+
+<hr>
+<address></address>
+<!-- hhmts start -->Last modified: Fri Jul 15 11:37:52 CST 2011 <!-- hhmts end -->
+
+{% end %}

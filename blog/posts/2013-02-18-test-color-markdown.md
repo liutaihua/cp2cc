@@ -11,6 +11,4 @@ categories: notes
 很明显颜色不错的嘛
 
 再来一个照片吧:
-<img src= http://img3.douban.com/view/photo/photo/public/p1726050476.jpg>
-
-
+<a><img src= http://img3.douban.com/view/photo/photo/public/p1726050476.jpg></a>

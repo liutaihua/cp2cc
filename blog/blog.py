@@ -111,7 +111,8 @@ def RSSMaker():
     
     for f in files:
         file_list.append(post_dir + os.sep + f)
-    file_list.sort(reverse=True)
+    #file_list.sort(reverse=True)
+    file_list.sort(reverse=False)
     
     for single_file in file_list:
         article = SingleFileHandler(single_file)

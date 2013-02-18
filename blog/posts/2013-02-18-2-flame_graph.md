@@ -1,7 +1,7 @@
 --
 layout: post
-title: "flame graph可视化分析"
-date: 2013-02-18 17:29
+Title: "flame graph可视化分析"
+Date: 2013-02-18 17:29
 comments: true
 categories: notes
 --

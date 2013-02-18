@@ -1,7 +1,7 @@
 --
 layout: post
-title: "test"
-date: 2012-01-24 22:55
+Title: "test"
+Date: 2012-01-24 22:55
 comments: true
 categories: notes
 --

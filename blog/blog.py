@@ -48,7 +48,7 @@ def SingleFileHandler(file_path):
         content += line
         
     if title:
-        ret['title'] = title
+        ret['title'] = '<font color="green">' + title '</font>'
         ret['date'] = date
         ret['content'] = markdown.markdown(content)
         ret['name'] = file_path.split(os.sep)[-1].split('.')[0]

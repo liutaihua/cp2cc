@@ -38,6 +38,7 @@ def SingleFileHandler(file_path):
         index += 1
         if line.find('title: ') == 0:
             title = line.replace('title: "','')[0:-2]
+            title += '# <font color="green">' + title + '</font>'
         if line.find('date: ') == 0:
             date = line.replace('date: ','')[0:-1]
         if line.find('---') == 0:
@@ -48,7 +49,7 @@ def SingleFileHandler(file_path):
         content += line
         
     if title:
-        ret['title'] = '<font color="green">' + title '</font>'
+        ret['title'] = title
         ret['date'] = date
         ret['content'] = markdown.markdown(content)
         ret['name'] = file_path.split(os.sep)[-1].split('.')[0]

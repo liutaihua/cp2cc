@@ -66,8 +66,7 @@ class MainHandler(tornado.web.RequestHandler):
 
         for f in files:
             file_list.append(post_dir + os.sep + f)
-        #file_list.sort(reverse=True)
-        file_list.sort(reverse=False)
+        file_list.sort(reverse=True)
         for single_file in file_list[p:p+3]:
             article = SingleFileHandler(single_file)
             if article: articles.append(article)
@@ -111,8 +110,7 @@ def RSSMaker():
     
     for f in files:
         file_list.append(post_dir + os.sep + f)
-    #file_list.sort(reverse=True)
-    file_list.sort(reverse=False)
+    file_list.sort(reverse=True)
     
     for single_file in file_list:
         article = SingleFileHandler(single_file)

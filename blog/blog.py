@@ -84,7 +84,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 class ArticleHandler(tornado.web.RequestHandler):
     def get(self, article_id):
-        post_path = site_config["post_dir"] + os.sep + article_id.replace('.','') + '.markdown'
+        post_path = site_config["post_dir"] + os.sep + article_id.replace('.','') + '.md'
         article = SingleFileHandler(post_path)
         
         self.render("template/article.html", title=site_config['title'], url=site_config["url"], article = article)

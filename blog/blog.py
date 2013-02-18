@@ -66,7 +66,8 @@ class MainHandler(tornado.web.RequestHandler):
 
         for f in files:
             file_list.append(post_dir + os.sep + f)
-        file_list.sort(reverse=True)
+        #file_list.sort(reverse=True)
+        file_list.sort(reverse=False)
         for single_file in file_list[p:p+3]:
             article = SingleFileHandler(single_file)
             if article: articles.append(article)

@@ -1,5 +1,7 @@
 #coding=utf8
 import tornado.ioloop
+import tornado.autoreload
+import tornado.httpserver
 import tornado.web
 import string, os, sys
 import markdown
@@ -9,12 +11,13 @@ import datetime
 
 site_config = {
     "title" : "歪鱼",
-    "url" : """http://blog.yyu.me""",
+    "url" : """http://bb.yyu.me""",
     "post_dir": os.getcwd() + os.sep + 'posts',
 }
 
 settings = {
-    "static_path": os.path.join(os.path.dirname(__file__), "static")
+    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    "debug": True,
 }
 
 def SingleFileHandler(file_path):
@@ -136,15 +139,20 @@ def RSSMaker():
 
     rss.write_xml(open("rss.xml", "w"))
         
-application = tornado.web.Application([
-    (r"/", MainHandler),
-    (r"/article/(.*)", ArticleHandler),
-    (r"/.*\.xml",RSSHandler),
-    (r"/.*", NotFoundHandler),
-], **settings)
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", MainHandler),
+            (r"/article/(.*)", ArticleHandler),
+            (r"/.*\.xml",RSSHandler),
+            (r"/.*", NotFoundHandler),
+        ]
+        tornado.web.Application.__init__(self, handlers, **settings)
 
 if __name__ == "__main__":
-    application.listen(8888)
+    port = sys.argv[1]
+    http_server = tornado.httpserver.HTTPServer(Application(), xheaders=True)
+    http_server.listen(port)
+    tornado.autoreload.start()
     RSSMaker()
-    print "MartianZ Burogu Sutato!"
     tornado.ioloop.IOLoop.instance().start()

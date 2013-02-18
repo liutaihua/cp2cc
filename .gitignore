@@ -1,3 +1,4 @@
-nohup.out
+*.nohup.out
 yyu_server/nohup.out
+blog/nohup.out
 *.pyc

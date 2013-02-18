@@ -1,10 +1,10 @@
----
+--
 layout: post
 title: "test"
 date: 2012-01-24 22:55
 comments: true
 categories: notes
----
+--
 # <font color="green"> 测试markdown文字颜色 </font>
 
 

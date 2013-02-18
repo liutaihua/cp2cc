@@ -41,7 +41,7 @@ def SingleFileHandler(file_path):
             title = '<h2><font color="green">' + title + '</font></h2>'
         if line.find('date: ') == 0:
             date = line.replace('date: ','')[0:-1]
-        if line.find('---') == 0:
+        if line.find('--') == 0:
             break
 
     content = u'';

@@ -2,3 +2,4 @@
 yyu_server/nohup.out
 blog/nohup.out
 *.pyc
+blog/rss.xml

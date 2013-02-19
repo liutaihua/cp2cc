@@ -1,5 +1,6 @@
 #coding=utf8
 import urllib2
+import bz2
 from common.base_httphandler import BaseHandler
 from tornado.options import options
 

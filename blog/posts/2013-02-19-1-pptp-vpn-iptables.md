@@ -8,49 +8,42 @@ Excerpt:
 
 pptp服务器:
 
-pptp下发下去的ip网段: 10.168.0.0/24
+pptp下发下去的ip网段: 10.168.0.0/24 
 
-######iptables配置:  (注意打开ip_forward转发):
+iptables配置:  (注意打开ip_forward转发):
+<pre>
+-A FORWARD -s 10.168.0.0/24 -j ACCEPT
+-A POSTROUTING -s 10.168.0.0/24 -j MASQUERADE 
+</pre>
 
-`-A FORWARD -s 10.168.0.0/24 -j ACCEPT`
 
-`-A POSTROUTING -s 10.168.0.0/24 -j MASQUERADE`  
-
-
-
-######增加一条路由, 将访问内网172.16.8.0/24的转发到 内网一台已拨pptp到服务器上的一个IP10.168.0.234:    
+增加一条路由, 将访问内网172.16.8.0/24的转发到 内网一台已拨pptp到服务器上的一个IP10.168.0.234:    
 
 `route add -net 172.16.8.0/24 gw 10.168.0.234`
 
-
-
-######在内网这台10.168.0.234的服务器上, 存在另外一个真正的内网网卡IP 172.16.8.213,在这个服务器上启动iptables, 将它当路由器使用来路由网络请求到整个172.16.8.0/24的内网网段:
-
+在内网这台10.168.0.234的服务器上, 存在另外一个真正的内网网卡IP 172.16.8.213,在这个服务器上启动iptables, 将它当路由器使用来路由网络请求到整个172.16.8.0/24的内网网段:
 
 同样的iptables配置:   (注意打开ip_forward转发)
 
 `-A FORWARD -s 10.168.0.0/24 -j ACCEPT`
 
-`-A POSTROUTING -s 10.168.0.0/24 -j MASQUERADE`
+`-A POSTROUTING -s 10.168.0.0/24 -j MASQUERADE` 
+ 
 
+增加一条route:
+<pre>
+route add -net 10.168.0.0/24  gw 10.168.0.1
+</pre>
 
-
-
-######增加一条route:
-
-`route add -net 10.168.0.0/24  gw 10.168.0.1`
-
-
-
-######配置完成, 下面是谁想通过pptp真正连接到内网时, 自己的配置方法:
+配置完成, 下面是谁想通过pptp真正连接到内网时, 自己的配置方法:
 
 
 for linux:
 
 使用pptpsetup程序: 
-
-`./pptpsetup --create test --server 180.153.136.14 --username test --password defage --encrypt --start`
-
+<pre>
+./pptpsetup --create test --server 180.153.136.14 --username test --password defage --encrypt --start
+</pre>
 然后增加一条路由:
 
 route add -net 172.16.8.0/24 gw 10.168.0.1

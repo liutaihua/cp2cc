@@ -120,16 +120,24 @@ def RSSMaker():
     rss_items = []
     for article in articles:
         link = site_config["url"]+"/article/"+article["name"]
+        year = article["date"][0:4]
+        month = article["date"].split('-')[1]
+        day = article["date"].split('-')[2].split(' ')[0]
+        hour = article["date"].split('-')[2].split(' ')[1].split(':')[0]
+        minute = article["date"].split('-')[2].split(' ')[1].split(':')[1]
         rss_item = PyRSS2Gen.RSSItem(
             title = article["title"],
             link = link,
             description = article["content"],
             guid = PyRSS2Gen.Guid(link),
-            pubDate = datetime.datetime(    int(article["date"][0:4]),
-                            int(article["date"][5:7]),
-                            int(article["date"][8:10]),
-                            int(article["date"][11:13]),
-                            int(article["date"][14:16])))
+            pubDate = datetime.datetime(
+                year = int(year),
+                month = int(month),
+                day = int(day),
+                hour = int(hour),
+                minute = int(minute),
+                second = 0,
+        ))
         rss_items.append(rss_item)
         
     rss = PyRSS2Gen.RSS2(

@@ -35,6 +35,7 @@ Excerpt:
 
 对于服务端:
 <pre>
+<code>
 import zmq
 context = zmq.Context()
 
@@ -91,10 +92,12 @@ def main():
                 pusher.send(message.split(' ', 1)[-1], zmq.NOBLOCK)
             except:
                 pass
+</code>
 </pre>
 
 **客户端:**
 <pre>
+<code>
 import zmq
 context = zmq.Context()
 
@@ -134,4 +137,5 @@ def pull():
     while True:
         msg = pull.recv()
         print 'Got: ', msg
+</code>
 </pre>

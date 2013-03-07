@@ -39,7 +39,7 @@ def SingleFileHandler(file_path):
         if line.find('Title: ') == 0:
             title = line.replace('Title: "','')[0:-2]
             #title = line.replace('Title: ','')[0:-1]
-            title = '<h2><font color="green">' + title + '</font></h2>'
+            title = '<h3><font color="green">' + title + '</font></h3>'
         if line.find('Date: ') == 0:
             date = line.replace('Date: ','')[0:-1]
         if line.find('--') == 0:

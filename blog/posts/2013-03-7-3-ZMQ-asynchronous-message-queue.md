@@ -40,7 +40,9 @@ context = zmq.Context()
 
 
 
-"""定义一个订阅者, 注意的是,这里的订阅者是从服务端来看, 这个method是订阅者(从这个角度来说服务端也能看成是客户端了), 对应的client创建一个发布者(PUB)时, 使用connect连接的就是此服务端的订阅者."""
+"""定义一个订阅者, 注意的是,这里的订阅者是从服务端来看, 
+这个method是订阅者(从这个角度来说服务端也能看成是客户端了), 
+对应的client创建一个发布者(PUB)时, 使用connect连接的就是此服务端的订阅者."""
 def create_subscriber(port):
     sub = context.socket(zmq.SUB)
     sub.bind('tcp://*:%s' % port)
@@ -55,7 +57,8 @@ def create_publisher(port):
     return pub
 
 
-"""定义个推送者, 如果有client连上此pusher, 当有新消息时, client的pull.recv()将会获得msg"""
+"""定义个推送者, 如果有client连上此pusher, 当有新消息时,
+client的pull.recv()将会获得msg"""
 def create_pusher(port):
     pusher = context.socket(zmq.PUSH)
     pusher.bind('tcp://*:%s' % port)
@@ -68,14 +71,17 @@ def main():
     pub = create_publisher(args.pub_port)
     pusher = create_pusher(args.push_port)
 
-""" 创建一个Poller初始化， 将sub(订阅者)注册到此Poller, 并使用POLLIN参数, 在后面的    poller.pull()方法中, 将能pull到最新的,从client程序发到sub来的消息, 最后使用pub和pusher将消息send出去"""
+""" 创建一个Poller初始化， 将sub(订阅者)注册到此Poller, 并使用POLLIN参数, 
+在后面的poller.pull()方法中, 将能pull到最新的,从client程序发到sub来的消息,
+最后使用pub和pusher将消息send出去"""
     poller = zmq.Poller()
     poller.register(sub, zmq.POLLIN)
 
     while True:
         socks = poller.poll()  \# 创建socks
         for k, v in socks:
-           """ 获取消息,此消息实际是由client程序的pub发送到此server的sub, 然后经由poller.register, 被poller.poll()实例经由recv方法获取"""
+           """ 获取消息,此消息实际是由client程序的pub发送到此server的sub,
+           然后经由poller.register, 被poller.poll()实例经由recv方法获取"""
             message = k.recv()   
             
             pub.send(message)
@@ -94,7 +100,9 @@ context = zmq.Context()
 
 
 
-"""创建一个发布者, 发布者连接到server程序的订阅者, 产生msg后send, 其他语言比如cpp, 也是一样连接的是上面server程序的sub, 发送mq"""
+"""创建一个发布者, 发布者连接到server程序的订阅者, 产生msg后send, 
+其他语言比如cpp, 也是一样连
+接的是上面server程序的sub, 发送mq"""
 def pub():
     pub = context.socket(zmq.PUB)
     pub.connect('tcp://%s:%s' % (sub_host, sub_port))
@@ -121,7 +129,8 @@ def pull():
     pull = context.socket(zmq.PULL)
     pull.connect('tcp://%s:%s' % (pusher_host, pusher_port))
 
-    """一个死循环, 不断pull新msg, 接收到msg后根据msg再进行相关业务逻辑, 一般msg采用json格式, 能非常方便处理不能语言程序之间, 不同进程之间的通信."""
+    """一个死循环, 不断pull新msg, 接收到msg后根据msg再进行相关业务逻辑,
+    一般msg采用json格式, 能非常方便处理不能语言程序之间, 不同进程之间的通信."""
     while True:
         msg = pull.recv()
         print 'Got: ', msg

@@ -48,12 +48,40 @@
                         </div>
                     </div>
                     
-                    <div class="entry-content">
+                    <div class="entry-content" id="yyy{{ article["name"] }}">
                         {{ (article["content"]) }}
                     </div>
-                    
+
+
+                    <p>
+                      <script>
+                        (function(){
+                          var o = document.getElementById("yyy{{ article["name"] }}");
+                          var s = o.innerHTML;
+                          var p = document.createElement("span");
+                          var n = document.createElement("a");
+                          p.innerHTML = s.substring(0,500);
+                          n.innerHTML = s.length > 500 ? "...浏览全部" : "";
+                          n.href = "###";
+                          n.onclick = function(){
+                            if (n.innerHTML == "...浏览全部"){
+                              n.innerHTML = "收起";
+                              p.innerHTML = s;
+                            }else{
+                              n.innerHTML = "...浏览全部";
+                              p.innerHTML = s.substring(0,500);
+                            }
+                          }
+                          o.innerHTML = "";
+                          o.appendChild(p);
+                          o.appendChild(n);
+                        })();
+                      </script>
+                    </p>
+
                 </article>
                 {% end %}
+
                 <nav id="nav-below">
                     {% if pnext %}
                     <div class="nav-previous"><a href="/?p={{ nextnum }}"><span class="meta-nav">←</span> Older posts</a></div>
@@ -82,7 +110,7 @@
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+//    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 

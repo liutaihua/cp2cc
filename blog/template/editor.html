@@ -24,7 +24,7 @@
             var opts = {
             container: 'epiceditor',
             textarea: 'tttttttt',
-            basePath: 'epiceditor/',
+            basePath: 'static/epiceditor',
             clientSideStorage: true,
             localStorageName: 'epiceditor',
             useNativeFullsreen: true,
@@ -69,9 +69,9 @@
                 });
             }
 
-            function test(filename) {
+            function test() {
                   var theContent = editor.exportFile();
-                  //save({'filename':filename, 'content':theContent}, function () {
+                  var filename = document.getElementById('set_filename').value;
                   save(filename, theContent, function () {
                   console.log('Data was saved to the database.');
                   });
@@ -79,7 +79,10 @@
 
        </script>
 
-       <button onclick="javascript:test('test')">Copy Text</button>
+       <form>
+         <input type="text" name="filename", id="set_filename"> filename</input>
+         <button onclick="javascript:test()">Save Article</button>
+       </form>
     </body>
 </html>
 

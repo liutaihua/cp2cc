@@ -151,14 +151,26 @@ def RSSMaker():
 
 class EditorHandler(tornado.web.RequestHandler):
     def get(self):
-        return self.render('editor.html')
+        return self.render('template/editor.html')
 
 class SaveArticleHandler(tornado.web.RequestHandler):
     def post(self):
         filename = self.get_argument('filename')
         content = self.request.body
 
-        file = open('posts/%s'%filename, 'w')
+        today = datetime.datetime.now().strftime('%Y-%m-%d')
+        post_dir = site_config["post_dir"]
+        files = os.listdir(post_dir)
+        
+        today_file_number = 1
+        for f in files:
+            file_date = '-'.join(f.split('-')[:3])
+            print file_date, today
+            if file_date == today:
+                today_file_number += 1
+
+        file_sn = today + '-' + str(today_file_number)
+        file = open('posts/%s-%s.md'%(file_sn, filename), 'w')
         file.write(content)
         file.close()
         return self.finish({'res': 'ok'})
@@ -169,9 +181,9 @@ class Application(tornado.web.Application):
             (r"/", MainHandler),
             (r"/article/(.*)", ArticleHandler),
             (r"/.*\.xml",RSSHandler),
-            (r"/.*", NotFoundHandler),
             (r"/save", SaveArticleHandler),
             (r"/editor", EditorHandler),
+            (r"/.*", NotFoundHandler),
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
 

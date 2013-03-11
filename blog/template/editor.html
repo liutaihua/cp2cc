@@ -19,7 +19,7 @@
         -->
 
 
-        <div id="epiceditor" style="height: 400px"></div>
+        <div id="epiceditor" style="height: 600px;width:auto"></div>
         <script>
             var opts = {
             container: 'epiceditor',
@@ -55,11 +55,10 @@
             var editor = new EpicEditor(opts);
             editor.load();
 
-            function save(filename, value) {
+            function save(filename, article_subject, value) {
                 $.ajax({
-                    url: "/save?filename=" + filename,
+                    url: "/save?filename=" + filename + "&subject=" + article_subject,
                     type: "POST",
-                    //data: "{'filename':" + filename.text() + ",'content':" + value.text()+ "}",
                     data: value,
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
@@ -72,7 +71,8 @@
             function test() {
                   var theContent = editor.exportFile();
                   var filename = document.getElementById('set_filename').value;
-                  save(filename, theContent, function () {
+                  var subject = document.getElementById('set_subject').value;
+                  save(filename, subject, theContent, function () {
                   console.log('Data was saved to the database.');
                   });
             }
@@ -81,6 +81,7 @@
 
        <form>
          <input type="text" name="filename", id="set_filename"> filename</input>
+         <input type="text" name="subject", id="set_subject"> subject</input>
          <button onclick="javascript:test()">Save Article</button>
        </form>
     </body>

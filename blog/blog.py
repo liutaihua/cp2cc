@@ -9,6 +9,11 @@ import codecs
 import PyRSS2Gen
 import datetime
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 site_config = {
     "title" : "歪鱼",
     "url" : """http://bb.yyu.me""",
@@ -156,9 +161,20 @@ class EditorHandler(tornado.web.RequestHandler):
 class SaveArticleHandler(tornado.web.RequestHandler):
     def post(self):
         filename = self.get_argument('filename')
+        article_subject = self.get_argument('subject')
         content = self.request.body
 
+        today_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
         today = datetime.datetime.now().strftime('%Y-%m-%d')
+        _extra_info = """--
+layout: post
+Title: "%s"
+Date: %s
+comments: true
+categories: notes
+--
+        """%(article_subject, today_time)
+
         post_dir = site_config["post_dir"]
         files = os.listdir(post_dir)
         
@@ -171,6 +187,7 @@ class SaveArticleHandler(tornado.web.RequestHandler):
 
         file_sn = today + '-' + str(today_file_number)
         file = open('posts/%s-%s.md'%(file_sn, filename), 'w')
+        file.write(u'%s'%_extra_info)
         file.write(content)
         file.close()
         return self.finish({'res': 'ok'})

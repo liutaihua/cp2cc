@@ -1,7 +1,7 @@
 --
 layout: post
 Title: "挂载kvm镜像"
-Date: 2013-3-7 13:55
+Date: 2013-03-07 13:55
 comments: true
 categories: notes
 -- 

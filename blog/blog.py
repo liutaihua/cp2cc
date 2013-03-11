@@ -148,6 +148,20 @@ def RSSMaker():
         items = rss_items)
 
     rss.write_xml(open("rss.xml", "w"))
+
+class EditorHandler(tornado.web.RequestHandler):
+    def get(self):
+        return self.render('editor.html')
+
+class SaveArticleHandler(tornado.web.RequestHandler):
+    def post(self):
+        filename = self.get_argument('filename')
+        content = self.request.body
+
+        file = open('posts/%s'%filename, 'w')
+        file.write(content)
+        file.close()
+        return self.finish({'res': 'ok'})
         
 class Application(tornado.web.Application):
     def __init__(self):
@@ -156,6 +170,8 @@ class Application(tornado.web.Application):
             (r"/article/(.*)", ArticleHandler),
             (r"/.*\.xml",RSSHandler),
             (r"/.*", NotFoundHandler),
+            (r"/save", SaveArticleHandler),
+            (r"/editor", EditorHandler),
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>EpicEditor - An embeddable JavaScript Markdown editor</title>
+        <meta name="description" content="EpicEditor is an embeddable JavaScript Markdown editor with split fullscreen editing, live previewing, automatic draft saving, offline support, and more.">
+                <link href='http://fonts.googleapis.com/css?family=Lato:400,400italic|Arvo:400,400italic' rel='stylesheet' type='text/css'>
+                <link rel="stylesheet" href="static/docs/css/main.css">
+                <link rel="stylesheet" href="static/docs/css/prettify.css">
+                <link rel="shortcut icon" href="static/docs/favicon.ico">
+                <script type="application/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+    </head>
+    <body>
+        <script src="static/docs/js/jquery.min.js"></script>
+        <script src="static/epiceditor/js/epiceditor.js"></script>
+        <!-- <script src="static/docs/js/prettify.js"></script>
+        <script src="static/docs/js/main.js"></script>
+        -->
+
+
+        <div id="epiceditor" style="height: 400px"></div>
+        <script>
+            var opts = {
+            container: 'epiceditor',
+            textarea: 'tttttttt',
+            basePath: 'epiceditor/',
+            clientSideStorage: true,
+            localStorageName: 'epiceditor',
+            useNativeFullsreen: true,
+            parser: marked,
+
+            file: {
+            name: 'test',
+            defaultContent: '',
+            autoSave: 100
+            },
+            theme: {
+            base:'/themes/base/epiceditor.css',
+            preview:'/themes/preview/preview-dark.css',
+            editor:'/themes/editor/epic-dark.css'
+            },
+            focusOnLoad: true,
+            shortcut: {
+            modifier: 18,
+            fullscreen: 70,
+            preview: 80
+            },
+            string: {
+            togglePreview: 'Toggle Preview Mode',
+            toggleEdit: 'Toggle Edit Mode',
+            toggleFullscreen: 'Enter Fullscreen'
+            }
+            };
+            var editor = new EpicEditor(opts);
+            editor.load();
+
+            function save(filename, value) {
+                $.ajax({
+                    url: "/save?filename=" + filename,
+                    type: "POST",
+                    //data: "{'filename':" + filename.text() + ",'content':" + value.text()+ "}",
+                    data: value,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                    console.log(data);
+                    },
+                });
+            }
+
+            function test(filename) {
+                  var theContent = editor.exportFile();
+                  //save({'filename':filename, 'content':theContent}, function () {
+                  save(filename, theContent, function () {
+                  console.log('Data was saved to the database.');
+                  });
+            }
+
+       </script>
+
+       <button onclick="javascript:test('test')">Copy Text</button>
+    </body>
+</html>
+

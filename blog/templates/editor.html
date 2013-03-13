@@ -34,13 +34,14 @@
         -->
 
        <form class="navbar-search pull-left">
+         <a class="btn js-btn" href="/">返回首页</a>
          <p>
            <input type="text" name="filename", id="set_filename" placeholder="保存文件名" size="15" style="width:200px; height=20px;"></input>
          </p>
          <p>
            <input type="text" name="subject", id="set_subject" placeholder="文章标题" size="15" style="width:200px; height=20px;"></input>
          </p>
-           <button onclick="javascript: save_article();" class="btn btn-success active"><i class="icon-white icon-folder-open"></i> Save Article</button>
+           <button onclick="javascript: save_article();" class="btn btn-success active"><i class="icon-white icon-folder-open"></i> 发布</button> 
        </form>
 
         <div id="epiceditor" style="height: 600px;width:auto"></div>
@@ -64,7 +65,7 @@
             preview:'/themes/preview/preview-dark.css',
             editor:'/themes/editor/epic-dark.css'
             },
-            focusOnLoad: true,
+            focusOnLoad: false,
             shortcut: {
             modifier: 18,
             fullscreen: 70,

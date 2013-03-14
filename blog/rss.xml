@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<rss version="2.0"><channel><title>歪鱼</title><link>http://bb.yyu.me</link><description></description><lastBuildDate>Tue, 12 Mar 2013 08:30:43 GMT</lastBuildDate><generator>PyRSS2Gen-1.1.0</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>&lt;h3&gt;&lt;font color="green"&gt;&#20351;&#29992;datetime, &#26500;&#36896;&#19968;&#20010;cron task&#23450;&#26399;&#25191;&#34892;&#32473;&#23450;&#30340;&#20989;&#25968;&#26041;&#27861;&lt;/font&gt;&lt;/h3&gt;</title><link>http://bb.yyu.me/article/2013-03-12-1-cron-task-with-datetime-obj</link><description>&lt;pre&gt;&lt;code&gt;    &#20351;&#29992;datetime, &#26500;&#36896;&#19968;&#20010;cron task&#23450;&#26399;&#25191;&#34892;&#32473;&#23450;&#30340;&#20989;&#25968;&#26041;&#27861;
-&lt;/code&gt;&lt;/pre&gt;
+<rss version="2.0"><channel><title>歪鱼</title><link>http://bb.yyu.me</link><description></description><lastBuildDate>Thu, 14 Mar 2013 05:30:04 GMT</lastBuildDate><generator>PyRSS2Gen-1.1.0</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>&lt;h3&gt;&lt;font color="green"&gt;postgres&#22791;&#20221;&#21644;&#24674;&#22797;&lt;/font&gt;&lt;/h3&gt;</title><link>http://bb.yyu.me/article/2013-03-14-1-postgres-backup-and-restore</link><description>&lt;h4&gt;&#22791;&#20221;:&lt;/h4&gt;
+&lt;p&gt;&#22312;postgres.conf&#37197;&#32622;&#37324;&#25351;&#23450;:&lt;/p&gt;
+&lt;p&gt;archive_command = 'cp "%p" /data/postgresql/arch/"%f"'&lt;/p&gt;
+&lt;p&gt;&#35774;&#23450;:&lt;/p&gt;
+&lt;p&gt;wal_level=archive  &lt;/p&gt;
+&lt;p&gt;&#25163;&#24037;&#22791;&#20221;&#25805;&#20316;&#26041;&#24335;:&lt;/p&gt;
+&lt;p&gt;psql cli&#21518;:&lt;/p&gt;
+&lt;p&gt;select pg_start_backup(' test backup') &lt;/p&gt;
+&lt;p&gt;&#28982;&#21518;:&lt;/p&gt;
+&lt;p&gt;select pg_stop_backup() ,stop&#25191;&#34892;&#26102;,&#23601;&#20250;&#25191;&#34892;archive_command&#20013;&#23450;&#20041;&#30340;backup.&lt;/p&gt;
+&lt;h4&gt;&#20174;wal&#22791;&#20221;&#20013;&#24674;&#22797;:&lt;/h4&gt;
+&lt;p&gt;&#21019;&#24314;&#19968;&#20010;recovery.conf:&lt;/p&gt;
+&lt;p&gt;cp /usr/pgsql-9.2/share/recovery.conf.sample recovery.conf&lt;/p&gt;
+&lt;p&gt;&#22312;recovery.conf&#37197;&#32622;&#20013;&#25351;&#23450;:&lt;/p&gt;
+&lt;p&gt;restore_command = 'cp /data/postgresql/arch/%f %p'&lt;/p&gt;
+&lt;p&gt;&#28982;&#21518;&#37325;&#26032;&#21551;&#21160;postgresql, &#31995;&#32479;&#20250;&#26816;&#26597;&#21040;recovery.conf&#25991;&#20214;&#30340;&#23384;&#22312;,&#24182;&#25191;&#34892;restore, &#28982;&#21518;&#27491;&#24120;&#21551;&#21160;&#21518;,&#20250;&#33258;&#21160;&#23558;recovery.conf&#25991;&#20214;&#21517;&#25913;&#20026;recovery.conf.done&lt;/p&gt;</description><guid isPermaLink="true">http://bb.yyu.me/article/2013-03-14-1-postgres-backup-and-restore</guid><pubDate>Thu, 14 Mar 2013 13:28:00 GMT</pubDate></item><item><title>&lt;h3&gt;&lt;font color="green"&gt;&#20351;&#29992;datetime, &#26500;&#36896;&#19968;&#20010;cron task&#23450;&#26399;&#25191;&#34892;&#32473;&#23450;&#30340;&#20989;&#25968;&#26041;&#27861;&lt;/font&gt;&lt;/h3&gt;</title><link>http://bb.yyu.me/article/2013-03-12-1-cron-task-with-datetime-obj</link><description>&lt;p&gt;&#20351;&#29992;datetime, &#26500;&#36896;&#19968;&#20010;cron task&#23450;&#26399;&#25191;&#34892;&#32473;&#23450;&#30340;&#20989;&#25968;&#26041;&#27861;&lt;/p&gt;
 &lt;p&gt;&#19968;&#20010;Plan&#31867;, &#21253;&#21547;next_datatime, execute, &#20004;&#20010;&#26041;&#27861;, &lt;strong&gt;init&lt;/strong&gt;&#26041;&#27861;&#25351;&#26126;&#22312;&#23454;&#20363;&#21270;&#30340;&#26102;&#20505;,&#38656;&#35201;&#32473;&#23450;&#19968;&#20010;func&#20316;&#20026;&#21442;&#25968;, &#20854;&#20182;&#21442;&#25968;&#21487;&#20197;&#26159;&#26102;&#38388;&#38388;&#38548;, &#25110;&#20855;&#20307;&#30340;&#26102;&#38388;&#28857;,&lt;/p&gt;
 &lt;pre&gt;
 

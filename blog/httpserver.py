@@ -62,6 +62,7 @@ class MainHandler(BaseHandler):
         post_dir = site_config["post_dir"]
         file_list = []
         files = os.listdir(post_dir)
+        print 1111111111111,files
 
         p = int(self.get_argument('p','0'))
 
@@ -171,7 +172,7 @@ comments: true
 categories: notes
 --
 
-        """%(article_subject, today_time)
+"""%(article_subject, today_time)
 
         post_dir = site_config["post_dir"]
         files = os.listdir(post_dir)

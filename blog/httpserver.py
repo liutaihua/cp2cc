@@ -156,10 +156,15 @@ def RSSMaker():
 class EditorHandler(BaseHandler):
     @login_required
     def get(self):
+        #filename = self.get_argument('filename', None)
+        #file_content = ''
+        #if filename:
+        #    file_path = site_config["post_dir"] + os.sep + filename + '.md'
+        #    file_content = open(file_path).read()
         post_dir = site_config["post_dir"]
         files = os.listdir(post_dir)
         
-        return self.render('editor.html', files=files)
+        return self.render('editor.html', files=files, file_content=file_content)
 
 class SaveArticleHandler(BaseHandler):
     def post(self):

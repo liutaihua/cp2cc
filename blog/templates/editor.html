@@ -33,13 +33,6 @@
         <script src="static/docs/js/main.js"></script>
         -->
 
-<form>
-    <select name="file" id='filename' onchange="javascript: get_article();">
-    {% for name in files%}
-    <option value="{{ name }}">{{ name }}</option>
-    {% end %}
-    </select>
-</form>
        <form class="navbar-search pull-left">
          <a class="btn js-btn" href="/">返回首页</a>
          <p>
@@ -48,7 +41,13 @@
          <p>
            <input type="text" name="subject", id="set_subject" placeholder="文章标题" size="15" style="width:200px; height=20px;"></input>
          </p>
-           <button onclick="javascript: save_article();" class="btn btn-success active"><i class="icon-white icon-folder-open"></i> 发布</button> 
+         <button onclick="javascript: save_article();" class="btn btn-success active"><i class="icon-white icon-folder-open"></i> 发布</button> 
+
+         <select name="file" id='filename' onchange="javascript: get_article();">
+            {% for name in files%}
+            <option value="{{ name }}">{{ name }}</option>
+            {% end %}
+         </select>
        </form>
 
         <div id="epiceditor" style="height: 600px;width:auto"></div>
@@ -123,8 +122,11 @@
                 });
             }
 
+            function importFile(content) {
+                editor.importFile('tmpArticleFile', content);
+                editor.open('tmpArticleFile');
+            }
        </script>
-
     </body>
 </html>
 

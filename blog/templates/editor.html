@@ -33,6 +33,14 @@
         <script src="static/docs/js/main.js"></script>
         -->
 
+        {% if edit_file != '' %}
+        <script>
+        $(function() {
+            get_article("{{edit_file}}.md");
+        });
+        </script>
+        {% end %}
+
        <form class="navbar-search pull-left">
          <a class="btn js-btn" href="/">返回首页</a>
          <p>
@@ -108,11 +116,11 @@
                   });
             }
 
-            function get_article(){
-                var file = document.getElementById('filename').value
+            function get_article(file){
+                var file = file || document.getElementById('filename').value;
                 $.ajax({
                     type: 'GET',
-                    url: 'importfile/' + file,
+                    url: '/importfile?filename=' + file,
                     async:true,
                     success: function(data){
                         editor.importFile('tmpArticleFile', data);
@@ -122,7 +130,7 @@
                 });
             }
 
-            function importFile(content) {
+            function imFile(content) {
                 editor.importFile('tmpArticleFile', content);
                 editor.open('tmpArticleFile');
             }

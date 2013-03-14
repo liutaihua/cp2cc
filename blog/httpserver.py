@@ -156,15 +156,11 @@ def RSSMaker():
 class EditorHandler(BaseHandler):
     @login_required
     def get(self):
-        #filename = self.get_argument('filename', None)
-        #file_content = ''
-        #if filename:
-        #    file_path = site_config["post_dir"] + os.sep + filename + '.md'
-        #    file_content = open(file_path).read()
+        filename = self.get_argument('filename', '')
         post_dir = site_config["post_dir"]
         files = os.listdir(post_dir)
         
-        return self.render('editor.html', files=files, file_content=file_content)
+        return self.render('editor.html', files=files, edit_file=filename)
 
 class SaveArticleHandler(BaseHandler):
     def post(self):
@@ -223,7 +219,8 @@ class LoginHandler(BaseHandler):
                 return self.redirect('/')
 
 class ImportFileHandler(BaseHandler):
-    def get(self, file):
+    def get(self):
+        file = self.get_argument('filename')
         file_path = site_config["post_dir"] + os.sep + file
         article = SingleFileHandler(file_path, keep_original=True)
         content = article['content']
@@ -235,7 +232,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             (r"/article/(.*)", ArticleHandler),
-            (r"/importfile/(.*)", ImportFileHandler),
+            (r"/importfile", ImportFileHandler),
             (r"/.*\.xml",RSSHandler),
             (r"/save", SaveArticleHandler),
             (r"/editor", EditorHandler),

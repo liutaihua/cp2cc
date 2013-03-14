@@ -33,6 +33,13 @@
         <script src="static/docs/js/main.js"></script>
         -->
 
+<form>
+    <select name="file" id='filename' onchange="javascript: get_article();">
+    {% for name in files%}
+    <option value="{{ name }}">{{ name }}</option>
+    {% end %}
+    </select>
+</form>
        <form class="navbar-search pull-left">
          <a class="btn js-btn" href="/">返回首页</a>
          <p>
@@ -102,9 +109,18 @@
                   });
             }
 
-            function open_test() {
-                editor.open("/tmp/init_system.done");
-                editor.open('httpserver.py');
+            function get_article(){
+                var file = document.getElementById('filename').value
+                $.ajax({
+                    type: 'GET',
+                    url: 'importfile/' + file,
+                    async:true,
+                    success: function(data){
+                        editor.importFile('tmpArticleFile', data);
+                        editor.open('tmpArticleFile');
+                    },
+                    dataType: "text"
+                });
             }
 
        </script>

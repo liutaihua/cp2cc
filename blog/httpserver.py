@@ -20,7 +20,7 @@ from common import session
 from common.decorator import login_required
 
 
-def SingleFileHandler(file_path):
+def SingleFileHandler(file_path, keep_original=False):
     f = codecs.open(file_path, mode='r', encoding='utf8')
     lines = []
     try:
@@ -52,7 +52,10 @@ def SingleFileHandler(file_path):
     if title:
         ret['title'] = title
         ret['date'] = date
-        ret['content'] = markdown.markdown(content)
+        if keep_original:
+            ret['content'] = content
+        else:
+            ret['content'] = markdown.markdown(content)
         ret['name'] = file_path.split(os.sep)[-1].split('.')[0]
     return ret
     
@@ -62,7 +65,6 @@ class MainHandler(BaseHandler):
         post_dir = site_config["post_dir"]
         file_list = []
         files = os.listdir(post_dir)
-        print 1111111111111,files
 
         p = int(self.get_argument('p','0'))
 
@@ -154,7 +156,10 @@ def RSSMaker():
 class EditorHandler(BaseHandler):
     @login_required
     def get(self):
-        return self.render('editor.html')
+        post_dir = site_config["post_dir"]
+        files = os.listdir(post_dir)
+        
+        return self.render('editor.html', files=files)
 
 class SaveArticleHandler(BaseHandler):
     def post(self):
@@ -212,12 +217,20 @@ class LoginHandler(BaseHandler):
                 self.session.save()
                 return self.redirect('/')
 
+class ImportFileHandler(BaseHandler):
+    def get(self, file):
+        file_path = site_config["post_dir"] + os.sep + file
+        article = SingleFileHandler(file_path, keep_original=True)
+        content = article['content']
+        return self.finish(content)
+   
         
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
             (r"/article/(.*)", ArticleHandler),
+            (r"/importfile/(.*)", ImportFileHandler),
             (r"/.*\.xml",RSSHandler),
             (r"/save", SaveArticleHandler),
             (r"/editor", EditorHandler),

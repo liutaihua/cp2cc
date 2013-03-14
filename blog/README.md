@@ -18,4 +18,5 @@ Fork from MartianZ 同学。演示：<http://bb.yyu.me>
 
 
 #####TODO:
-* 增加文章在线编辑修改功能
+* 增加文章在线编辑修改功能 done
+* 照片墙功能.
